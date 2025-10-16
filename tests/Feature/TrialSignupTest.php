@@ -7,6 +7,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    // Skip tests that require Stripe checkout if credentials are not configured
+    if (! config('cashier.secret') || ! config('cashier.key')) {
+        $this->markTestSkipped('Stripe credentials not configured');
+    }
+});
+
 it('redirects unauthenticated users to register with trial parameter', function () {
     $response = $this->get('/trial-signup/professional');
 

@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 use App\Models\User;
 
+beforeEach(function () {
+    // Skip these tests if Stripe credentials are not configured
+    if (! config('cashier.secret') || ! config('cashier.key')) {
+        $this->markTestSkipped('Stripe credentials not configured');
+    }
+});
+
 it('correctly identifies unsubscribed users', function () {
     $user = User::factory()->create();
 
