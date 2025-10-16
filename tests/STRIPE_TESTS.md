@@ -22,6 +22,12 @@ Added `beforeEach()` blocks to tests that make actual Stripe API calls to skip t
 -   Skips tests that redirect to `checkout.stripe.com`
 -   These tests trigger Stripe checkout session creation
 
+### `tests/Feature/SubscriptionCreditTest.php`
+
+-   Added Stripe credential and configuration checks
+-   Skips tests that depend on actual Stripe price IDs being configured
+-   Tests webhook handling and credit logic that requires real Stripe configuration
+
 ## Test Behavior
 
 ### When Stripe credentials are available:
@@ -40,11 +46,13 @@ Added `beforeEach()` blocks to tests that make actual Stripe API calls to skip t
 
 -   `STRIPE_KEY` (public key)
 -   `STRIPE_SECRET` (secret key)
+-   `STRIPE_STARTER_PRICE_ID`, `STRIPE_BASIC_PRICE_ID`, etc. (actual Stripe price IDs)
 
 These are mapped to Laravel Cashier config:
 
 -   `config('cashier.key')`
 -   `config('cashier.secret')`
+-   `config('stripe.subscription_tiers')` with real price IDs
 
 ## Running Tests
 

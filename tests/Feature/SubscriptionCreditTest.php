@@ -7,6 +7,21 @@ use App\Models\User;
 use Laravel\Cashier\Events\WebhookReceived;
 
 beforeEach(function () {
+    // Skip these tests if Stripe configuration is not properly set up
+    if (! config('cashier.secret') || ! config('cashier.key')) {
+        $this->markTestSkipped('Stripe credentials not configured');
+    }
+
+    // Also check if the Stripe configuration has actual price IDs (not defaults)
+    $tiers = config('stripe.subscription_tiers');
+    $hasActualPriceIds = collect($tiers)->contains(function ($tier) {
+        return $tier['stripe_price_id'] && str_starts_with($tier['stripe_price_id'], 'price_1');
+    });
+
+    if (! $hasActualPriceIds) {
+        $this->markTestSkipped('Stripe price IDs not configured with actual values');
+    }
+
     $this->user = User::factory()->create([
         'stripe_id' => 'cus_test123',
     ]);
