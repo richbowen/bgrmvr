@@ -28,11 +28,11 @@ class BackgroundRemovalController extends Controller
             default => abort(404, 'Invalid file type')
         };
 
-        if (! $path || ! Storage::disk('public')->exists($path)) {
+        if (! $path || ! Storage::exists($path)) {
             abort(404, 'File not found');
         }
 
-        $fileContents = Storage::disk('public')->get($path);
+        $fileContents = Storage::get($path);
         $mimeType = $removal->mime_type ?? 'application/octet-stream';
 
         return response($fileContents)
@@ -57,7 +57,7 @@ class BackgroundRemovalController extends Controller
             default => abort(404, 'Invalid file type')
         };
 
-        if (! $path || ! Storage::disk('public')->exists($path)) {
+        if (! $path || ! Storage::exists($path)) {
             abort(404, 'File not found');
         }
 
@@ -65,7 +65,7 @@ class BackgroundRemovalController extends Controller
             ? $removal->original_filename
             : 'processed_'.$removal->original_filename;
 
-        $fileContents = Storage::disk('public')->get($path);
+        $fileContents = Storage::get($path);
         $mimeType = $removal->mime_type ?? 'application/octet-stream';
 
         return response()->streamDownload(function () use ($fileContents) {

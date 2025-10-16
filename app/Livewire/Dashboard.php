@@ -46,7 +46,7 @@ class Dashboard extends Component
         try {
             // Store the original image permanently
             $originalFilename = $this->quickImage->getClientOriginalName();
-            $originalPath = $this->quickImage->store('background-removals/originals', 'public');
+            $originalPath = $this->quickImage->store('background-removals/originals');
 
             // Convert image to base64 for API
             $imageContent = file_get_contents($this->quickImage->getRealPath());
@@ -92,7 +92,7 @@ class Dashboard extends Component
             $processedFilename = 'processed_'.$originalFilename;
             $processedPath = 'background-removals/processed/'.$processedFilename;
 
-            Storage::disk('public')->put($processedPath, $processedImageContent);
+            Storage::put($processedPath, $processedImageContent);
 
             // Update the database record
             $removal->update([

@@ -52,7 +52,7 @@ class BackgroundRemover extends Component
             // Store the original image permanently
             $this->processingProgress = 20;
             $originalFilename = $this->image->getClientOriginalName();
-            $originalPath = $this->image->store('background-removals/originals', 'public');
+            $originalPath = $this->image->store('background-removals/originals');
 
             $this->processingProgress = 30;
 
@@ -117,7 +117,7 @@ class BackgroundRemover extends Component
             $processedFilename = 'processed_'.$originalFilename;
             $processedPath = 'background-removals/processed/'.$processedFilename;
 
-            Storage::disk('public')->put($processedPath, $processedImageContent);
+            Storage::put($processedPath, $processedImageContent);
 
             // Update the database record
             $removal->update([

@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Storage;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    Storage::fake('public');
+    Storage::fake();
 });
 
 it('allows user to download their own files', function () {
     $user = User::factory()->create();
 
     // Create fake files first
-    Storage::disk('public')->put('background-removals/originals/test.jpg', 'fake-original-content');
-    Storage::disk('public')->put('background-removals/processed/test.jpg', 'fake-processed-content');
+    Storage::put('background-removals/originals/test.jpg', 'fake-original-content');
+    Storage::put('background-removals/processed/test.jpg', 'fake-processed-content');
 
     // Create a background removal record
     $removal = BackgroundRemoval::create([
@@ -41,7 +41,7 @@ it('prevents user from downloading other users files', function () {
     $user2 = User::factory()->create();
 
     // Create fake file
-    Storage::disk('public')->put('background-removals/originals/test.jpg', 'fake-content');
+    Storage::put('background-removals/originals/test.jpg', 'fake-content');
 
     // Create a background removal record for user1
     $removal = BackgroundRemoval::create([

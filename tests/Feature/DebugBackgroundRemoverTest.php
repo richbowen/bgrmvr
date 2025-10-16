@@ -10,7 +10,7 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    Storage::fake('public');
+    Storage::fake();
     config(['services.replicate.api_token' => 'test-token']);
 });
 
